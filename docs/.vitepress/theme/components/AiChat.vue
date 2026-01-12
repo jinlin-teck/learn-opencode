@@ -99,20 +99,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, onMounted } from 'vue'
+import { ref, nextTick } from 'vue'
 
 // 环境变量配置
 // VITE_ 前缀的环境变量会在构建时注入
-// 默认启用，设置为 'false' 时禁用
+// 需要显式设置 VITE_AI_CHAT_ENABLED=true 才启用
 const envEnabled = import.meta.env.VITE_AI_CHAT_ENABLED
-const isEnabled = envEnabled !== 'false' // 默认启用，除非显式设为 'false'
+const isEnabled = envEnabled === 'true'
 const apiUrl = import.meta.env.VITE_AI_API_URL || '/api/ai/chat'
-
-// 调试信息（开发时可用）
-if (import.meta.env.DEV) {
-  console.log('[AiChat] VITE_AI_CHAT_ENABLED:', envEnabled, '-> isEnabled:', isEnabled)
-  console.log('[AiChat] API URL:', apiUrl)
-}
 
 // 状态
 const isOpen = ref(false)
@@ -149,19 +143,35 @@ function scrollToBottom() {
   })
 }
 
+// HTML 转义（防止 XSS）
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
 // 格式化消息（简单 Markdown 支持）
 function formatMessage(content: string): string {
-  return content
-    // 代码块
+  // 先转义 HTML，防止 XSS 攻击
+  let escaped = escapeHtml(content)
+
+  return escaped
+    // 代码块（转义后的内容中 ``` 仍然是 ```）
     .replace(/```(\w*)\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
     // 行内代码
     .replace(/`([^`]+)`/g, '<code>$1</code>')
-    // 粗体
+    // 粗体（转义后 ** 仍然是 **）
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     // 斜体
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    // 链接
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    // 链接（需要反转义 URL 中的 &amp;）
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
+      const safeUrl = url.replace(/&amp;/g, '&')
+      return `<a href="${safeUrl}" target="_blank" rel="noopener">${text}</a>`
+    })
     // 换行
     .replace(/\n/g, '<br>')
 }
