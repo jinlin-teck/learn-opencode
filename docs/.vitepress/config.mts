@@ -169,6 +169,7 @@ export default defineConfig({
           { text: '2.1 界面与操作', link: '/2-daily/01-interface' },
           { text: '2.2 管理对话', link: '/2-daily/02-sessions' },
           { text: '2.3 常用快捷键', link: '/2-daily/03-shortcuts' },
+          { text: '2.4 全局提示词', link: '/2-daily/04-global-rules' },
         ]
       },
       {
