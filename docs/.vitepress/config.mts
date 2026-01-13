@@ -69,6 +69,17 @@ export default defineConfig({
 
       gtag('config', 'G-1R6TQGK2HZ');
     `],
+
+    // Baidu Analytics
+    ['script', {}, `
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?3a4b4bd517386d99b8badbdd25bafb7b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    `],
   ],
 
   transformHead({ pageData }) {
@@ -395,6 +406,54 @@ export default defineConfig({
     root: {
       label: '简体中文',
       lang: 'zh-CN',
+    },
+    en: {
+      label: 'English',
+      lang: 'en-US',
+      link: '/en/',
+      themeConfig: {
+        nav: [
+          { text: 'Start', link: '/en/1-start/' },
+          { text: 'Scenarios', link: '/en/4-scenarios/' },
+          { text: 'Advanced', link: '/en/5-advanced/' },
+          { text: 'Reference', link: '/en/appendix/' },
+          { text: 'Community', link: '/en/community' },
+        ],
+        sidebar: [
+          {
+            text: '🚀 Quick Start',
+            collapsed: false,
+            items: [
+               { text: 'Phase Guide', link: '/en/1-start/' },
+               // Add more items as pages are translated
+            ]
+          },
+          {
+            text: '🎯 Scenarios',
+            collapsed: false,
+            items: [
+              { text: 'Choose Your Path', link: '/en/4-scenarios/' },
+            ]
+          }
+        ],
+        footer: {
+          message: 'Released under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> License. | <a href="/en/privacy">Privacy Policy</a> | © 2024 LearnOpenCode',
+        },
+        docFooter: {
+          prev: 'Previous',
+          next: 'Next',
+        },
+        outline: {
+          label: 'On this page',
+        },
+        lastUpdated: {
+          text: 'Last updated',
+        },
+        editLink: {
+          pattern: 'https://github.com/vbgate/learn-opencode/edit/main/docs/:path',
+          text: 'Edit this page on GitHub',
+        },
+      }
     },
   },
 })
