@@ -62,9 +62,9 @@ prerequisite: []
 
 **适合**：习惯 IDE、需要边看边改的场景
 
-### TUI 类
+### TUI 类（终端界面工具）
 
-**代表产品**：Claude Code、Codex、OpenCode
+**代表产品**：Claude Code、Codex CLI、OpenCode
 
 **特点**：
 - 终端原生，轻量快速
@@ -84,31 +84,30 @@ prerequisite: []
 
 ### Claude Code（Anthropic 官方）
 
-- **模型**：Claude 系列（Opus、Sonnet、Haiku）
-- **价格**：$17-200/月
+- **模型**：Claude 4.5 系列（Opus、Sonnet）
+- **价格**：$20/月 (包含在 Claude Pro 中)
 - **优点**：Anthropic 官方出品，体验完善，支持 VS Code/JetBrains 插件
 - **缺点**：绑定 Claude 模型，不支持国产模型，国内访问不便
 
-### Codex（OpenAI 官方）
+### Codex CLI（OpenAI 官方）
 
-- **模型**：codex-1（基于 o3 优化）
-- **价格**：ChatGPT Pro/Plus/Business 包含
+- **模型**：GPT-5.2 / GPT-5-Codex
+- **价格**：$20/月 (包含在 ChatGPT Plus 中)
 - **优点**：云端异步执行，可并行多任务，自动跑测试
 - **缺点**：绑定 GPT 系列，不支持国产模型，国内访问不便
 
 ### OpenCode（社区开源）
 
 - **模型**：75+ 模型自由切换
-- **价格**：免费，只付 API 费用
-- **优点**：开源、模型自由、原生支持智谱/DeepSeek/通义/MiniMax、中文完善
-- **缺点**：社区维护，更新节奏取决于社区
+- **价格**：免费 (配合[智谱 GLM-4.7 包月 ¥20 起](/1-start/04c-zhipu)等国内模型套餐)
+- **优点**：数据隐私（直连 API/本地）、开源、模型自由、原生支持智谱/DeepSeek/通义/MiniMax、中文完善、跨平台（macOS/Linux/Windows）
 
 ### 怎么选？
 
 | 你的情况 | 推荐 |
 |---------|------|
 | 想用国产模型 | OpenCode |
-| 不差钱，追求官方体验 | Claude Code 或 Codex |
+| 不差钱，追求官方体验 | Claude Code 或 Codex CLI |
 | 想要开源可控 | OpenCode |
 
 ---
@@ -192,7 +191,7 @@ AI：完成，移动了 847 个文件
 - [ ] IDE 类和 TUI 类工具的区别？
   - 答案：IDE 你还要操作编辑器；TUI 你说话，AI 干活
   
-- [ ] OpenCode 和 Claude Code/Codex 的主要区别？
+- [ ] OpenCode 和 Claude Code/Codex CLI 的主要区别？
   - 答案：开源、模型自由、原生支持国产模型
 
 ---
@@ -216,7 +215,7 @@ AI：完成，移动了 847 个文件
 1. **OpenCode 是什么**：终端里的 AI 编程助手
 2. **Vibe Coding**：动嘴不动手，你是指挥官
 3. **IDE vs TUI**：TUI 更适合 Vibe Coding
-4. **vs Claude Code/Codex**：开源、模型自由、支持国产模型
+4. **vs Claude Code/Codex CLI**：开源、模型自由、支持国产模型
 
 ---
 
