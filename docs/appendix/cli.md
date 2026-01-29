@@ -96,23 +96,48 @@ opencode run [message..]
 | `--share` | | 分享会话 |
 | `--model` | `-m` | 指定模型（格式：provider/model） |
 | `--agent` | | 指定 Agent |
-| `--file` | `-f` | 附加文件 |
+| `--file` | `-f` | 附加文件（可多个） |
 | `--format` | | 输出格式：default（格式化）或 json（原始 JSON） |
 | `--title` | | 会话标题 |
 | `--attach` | | 连接运行中的服务器（如 `http://localhost:4096`） |
 | `--port` | | 本地服务器端口（默认随机） |
+| `--variant` | | 模型变体（推理力度：high、max、minimal） |
 
 **示例**：
 ```bash
 # 基本使用
 opencode run "修复 src/main.ts 中的类型错误"
 
-# 输出为 JSON
-opencode run --format json "分析代码复杂度"
+# 指定模型
+opencode run -m anthropic/claude-sonnet-4-5 "Review this code"
 
-# 连接运行中的服务器（避免 MCP 冷启动）
-opencode serve  # 在另一个终端
-opencode run --attach <server-url> "解释 async/await"
+# 附加文件（支持多文件）
+opencode run -f src/main.ts -f package.json "Analyze this project"
+
+# 继续上一个会话
+opencode run -c "What else needs to be done?"
+
+# 使用 JSON 格式输出（适合脚本）
+opencode run --format json "List all TypeScript files"
+
+# 连接到远程服务器（避免 MCP 冷启动）
+opencode serve  # 在另一个终端启动
+opencode run --attach http://localhost:4096 "Explain async/await"
+
+# 使用自定义命令
+opencode run --command explain --file code.ts "How does this work?"
+
+# 指定模型变体（推理力度）
+opencode run -m anthropic/claude-opus-4-5 --variant max "Analyze entire codebase"
+
+# 自动分享会话
+opencode run --share "Generate project documentation"
+
+# 指定会话标题
+opencode run --title "Bug Fix" "Fix the login issue"
+
+# 从 stdin 读取输入
+echo "Count lines of code" | opencode run "Analyze"
 ```
 
 ---
