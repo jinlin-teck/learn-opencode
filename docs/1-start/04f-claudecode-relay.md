@@ -81,6 +81,10 @@ baseURL 的填写规则（常见两种给法）：
             "context": 200000,
             "output": 64000
           },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
           "options": {
             "thinking": {
               "type": "enabled",
@@ -108,6 +112,40 @@ baseURL 的填写规则（常见两种给法）：
 | claude-sonnet-4-5 | 200000 | 64000 |
 
 > 💡 想深入了解上下文压缩机制和 `limit` 参数的作用？请参阅 [5.20 上下文压缩](/5-advanced/20-compaction)。
+
+### 可选：需要读图时，`modalities` 要放在模型层
+
+如果你要让模型接收图片输入，`modalities` 必须写在 `models.<modelID>.modalities`，不能写在 provider 层，也不能塞进 `options`。
+
+✅ 正确（会生效）：
+
+```jsonc
+{
+  "provider": {
+    "claudecode-relay": {
+      "models": {
+        "claude-opus-4-5-20251101": {
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 16000
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+❌ 常见错误：
+
+- `provider.claudecode-relay.modalities`（层级太浅，配置直接报错）
+- `provider.claudecode-relay.models.<modelID>.options.modalities`（层级太深，不报错但不生效）
 
 ---
 
@@ -230,6 +268,8 @@ opencode
 | 404 / Not Found | baseURL 写错了 | 优先检查 `baseURL` 是否应该是 `.../v1`，并确认它能拼出 `.../v1/messages` |
 | 401 / Unauthorized | Key 无效/没权限 | 重新生成 Key，或检查套餐/权限 |
 | 选了模型就报错 | 模型名不支持 | 检查配置的 key（如 `claude-opus-4-5-20251101`）是否和中转商给的模型名完全一致 |
+| `Unrecognized key: "modalities" provider.xxx` | `modalities` 写到了 provider 层 | 挪到 `provider.xxx.models.<modelID>.modalities` |
+| `this model does not support image input` | `modalities` 写进了 `options` 或根本没配 | 使用模型层级：`models.<modelID>.modalities.input` 包含 `image` |
 
 ---
 
@@ -305,4 +345,3 @@ OpenCode 支持同时配置多个中转商，你可以在 `provider` 下添加�
 ::: tip 遇到问题？
 中转配置卡住了？[加入社群](/community)，和 500+ 同路人一起交流，实时答疑。
 :::
-
