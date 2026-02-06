@@ -172,6 +172,7 @@ export default defineConfig({
           { text: '2.3 常用快捷键', link: '/2-daily/03-shortcuts' },
           { text: '2.4 全局提示词', link: '/2-daily/04-global-rules' },
           { text: '2.5 环境管理', link: '/2-daily/05-env-management' },
+          { text: '2.6 Git 入门', link: '/2-daily/06-git-basics' },
         ]
       },
       {
