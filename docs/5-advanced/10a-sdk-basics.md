@@ -176,6 +176,39 @@ const client = createOpencodeClient({
 })
 ```
 
+#### 远程连接（带认证）
+
+当连接远程 OpenCode 服务器时，如果服务器设置了 `OPENCODE_SERVER_PASSWORD`，需要通过 `headers` 传递 Basic Auth 认证：
+
+```typescript
+import { createOpencodeClient } from "@opencode-ai/sdk"
+
+// 远程连接（带认证）
+const client = createOpencodeClient({
+  baseUrl: "http://192.168.1.100:4096",
+  headers: {
+    // Basic Auth 格式：Base64(username:password)
+    // 浏览器/Edge Runtime 用 btoa()
+    Authorization: `Basic ${btoa("opencode:your-password")}`
+  },
+  directory: "/projects/my-app"  // 指定远程项目目录
+})
+```
+
+::: details Node.js 环境用 Buffer
+```typescript
+// Node.js 没有 btoa，用 Buffer 代替
+Authorization: `Basic ${Buffer.from("opencode:password").toString("base64")}`
+```
+:::
+
+| 场景 | 用户名 | 说明 |
+|------|--------|------|
+| 默认 | `opencode` | 服务器默认用户名 |
+| 自定义 | 环境变量 `OPENCODE_SERVER_USERNAME` 的值 | 如果服务器设置了自定义用户名 |
+
+> **来源**：`packages/opencode/src/server/server.ts:84-87`（Basic Auth 中间件）
+
 ---
 
 ### 3. 启动 TUI 界面

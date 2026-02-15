@@ -279,6 +279,25 @@ export OPENCODE_SERVER_PASSWORD=MySecurePassword123!
 opencode serve --hostname 0.0.0.0
 ```
 
+::: info 💡 为什么只能用环境变量？
+密码相关的配置**不支持放在 `opencode.json` 配置文件中**，只能通过环境变量设置。
+
+这是出于安全考虑——避免密码被意外提交到 Git 仓库。
+
+全局配置文件 `~/.config/opencode/opencode.json` 只支持以下服务器选项：
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "mdnsDomain": "opencode.local",
+    "cors": ["http://example.com"]
+  }
+}
+```
+:::
+
 ### 2.4 连接远程服务器
 
 #### 用 attach 连接

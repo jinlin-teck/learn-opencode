@@ -50,6 +50,30 @@ http://<hostname>:<port>/doc
 
 ---
 
+## 认证
+
+如果服务器设置了 `OPENCODE_SERVER_PASSWORD` 环境变量，所有 API 请求都需要 HTTP Basic Auth 认证。
+
+### curl 示例
+
+```bash
+# 带 Basic Auth 认证
+curl -u opencode:your-password http://localhost:4096/global/health
+
+# 或手动设置 Authorization header
+curl -H "Authorization: Basic $(echo -n 'opencode:your-password' | base64)" \
+  http://localhost:4096/global/health
+```
+
+### 认证参数
+
+| 参数 | 说明 |
+|------|------|
+| 用户名 | 默认 `opencode`，或 `OPENCODE_SERVER_USERNAME` 环境变量的值 |
+| 密码 | `OPENCODE_SERVER_PASSWORD` 环境变量的值 |
+
+---
+
 ## 全局 API
 
 <AdInArticle />
@@ -64,8 +88,11 @@ http://<hostname>:<port>/doc
 **示例**：
 
 ```bash
-# 检查服务器健康状态
+# 检查服务器健康状态（无认证）
 curl http://localhost:4096/global/health
+
+# 如果服务器设置了密码
+curl -u opencode:your-password http://localhost:4096/global/health
 ```
 
 响应：
